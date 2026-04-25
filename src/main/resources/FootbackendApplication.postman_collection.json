@@ -1,0 +1,299 @@
+{
+  "info": {
+    "name": "ECMBackend",
+    "_postman_id": "ecmbackend-collection-v1",
+    "description": "All endpoints for ECMBackend API (http://localhost:8081). Login first — the token is saved automatically as the 'token' collection variable.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081" },
+    { "key": "token",   "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/auth/signup", "host": ["{{baseUrl}}"], "path": ["auth", "signup"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifiant\": \"johndoe\",\n  \"password\": \"secret123\",\n  \"fullname\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"role\": \"standard\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "  pm.collectionVariables.set('token', json.token);",
+                  "  console.log('Token saved:', json.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"identifiant\": \"johndoe\",\n  \"password\": \"secret123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Check Token",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/check", "host": ["{{baseUrl}}"], "path": ["auth", "check"] }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/refresh", "host": ["{{baseUrl}}"], "path": ["auth", "refresh"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{token}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/users", "host": ["{{baseUrl}}"], "path": ["auth", "users"] }
+          }
+        },
+        {
+          "name": "Search User by Username",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/auth/user/search?username=johndoe",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "user", "search"],
+              "query": [{ "key": "username", "value": "johndoe" }]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/users/1", "host": ["{{baseUrl}}"], "path": ["auth", "users", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullname\": \"John Updated\",\n  \"email\": \"john.updated@example.com\",\n  \"password\": \"\",\n  \"role\": \"standard\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete User (Admin only)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/users/1", "host": ["{{baseUrl}}"], "path": ["auth", "users", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/profile/me", "host": ["{{baseUrl}}"], "path": ["profile", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "item": [
+        {
+          "name": "Create Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/groups", "host": ["{{baseUrl}}"], "path": ["groups"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Team A\",\n  \"description\": \"Première équipe\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Groups",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/groups/all", "host": ["{{baseUrl}}"], "path": ["groups", "all"] }
+          }
+        },
+        {
+          "name": "Get Group by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/groups/1", "host": ["{{baseUrl}}"], "path": ["groups", "1"] }
+          }
+        },
+        {
+          "name": "Update Group",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/groups/1", "host": ["{{baseUrl}}"], "path": ["groups", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Team A Updated\",\n  \"description\": \"Description mise à jour\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Group",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/groups/1", "host": ["{{baseUrl}}"], "path": ["groups", "1"] }
+          }
+        },
+        {
+          "name": "Add User to Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/groups/add-user", "host": ["{{baseUrl}}"], "path": ["groups", "add-user"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"groupId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove User from Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/groups/remove-user", "host": ["{{baseUrl}}"], "path": ["groups", "remove-user"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"groupId\": 1\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Players",
+      "item": [
+        {
+          "name": "Create Player",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/players", "host": ["{{baseUrl}}"], "path": ["players"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Ali Ben Salah\",\n  \"birthDate\": \"2005-03-15\",\n  \"academy\": \"Académie Tunis\",\n  \"category\": \"U20\",\n  \"registerNumber\": \"REG-2024-001\",\n  \"heightCm\": 178,\n  \"weightKg\": 72,\n  \"fatherName\": \"Mohamed Ben Salah\",\n  \"motherName\": \"Fatma Trabelsi\",\n  \"photo\": \"ali_ben_salah.jpg\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Players",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/players/all", "host": ["{{baseUrl}}"], "path": ["players", "all"] }
+          }
+        },
+        {
+          "name": "Get Player by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/players/1", "host": ["{{baseUrl}}"], "path": ["players", "1"] }
+          }
+        },
+        {
+          "name": "Search Player by Register Number",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/players/search?registerNumber=REG-2024-001",
+              "host": ["{{baseUrl}}"],
+              "path": ["players", "search"],
+              "query": [{ "key": "registerNumber", "value": "REG-2024-001" }]
+            }
+          }
+        },
+        {
+          "name": "Update Player",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/players/1", "host": ["{{baseUrl}}"], "path": ["players", "1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Ali Ben Salah\",\n  \"birthDate\": \"2005-03-15\",\n  \"academy\": \"Académie Tunis\",\n  \"category\": \"U21\",\n  \"registerNumber\": \"REG-2024-001\",\n  \"heightCm\": 179,\n  \"weightKg\": 74,\n  \"fatherName\": \"Mohamed Ben Salah\",\n  \"motherName\": \"Fatma Trabelsi\",\n  \"photo\": \"ali_ben_salah.jpg\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Player",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/players/1", "host": ["{{baseUrl}}"], "path": ["players", "1"] }
+          }
+        }
+      ]
+    }
+  ]
+}
