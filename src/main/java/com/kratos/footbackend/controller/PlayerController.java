@@ -1,16 +1,30 @@
 package com.kratos.footbackend.controller;
 
-import com.kratos.footbackend.dto.CreatePlayerDto;
-import com.kratos.footbackend.model.Player;
-import com.kratos.footbackend.service.PlayerService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import com.kratos.footbackend.dto.CreatePlayerDto;
+import com.kratos.footbackend.model.Player;
+import com.kratos.footbackend.service.PlayerService;
 
 @RequestMapping("/players")
 @RestController
@@ -25,6 +39,7 @@ public class PlayerController {
     }
 
     @PostMapping
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_edit')")
     public ResponseEntity<Map<String, Object>> createPlayer(@RequestBody CreatePlayerDto dto) {
         try {
             Player player = playerService.createPlayer(dto);
@@ -49,6 +64,7 @@ public class PlayerController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_read')")
     public ResponseEntity<Map<String, Object>> getAllPlayers() {
         try {
             List<Player> players = playerService.getAllPlayers();
@@ -71,6 +87,7 @@ public class PlayerController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_read')")
     public ResponseEntity<Map<String, Object>> getPlayerById(@PathVariable Long id) {
         try {
             return playerService.getPlayerById(id)
@@ -96,6 +113,7 @@ public class PlayerController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_read')")
     public ResponseEntity<Map<String, Object>> searchByRegisterNumber(@RequestParam String registerNumber) {
         if (registerNumber == null || registerNumber.trim().isEmpty()) {
             Map<String, Object> response = new HashMap<>();
@@ -119,6 +137,7 @@ public class PlayerController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_edit')")
     public ResponseEntity<Map<String, Object>> updatePlayer(@PathVariable Long id, @RequestBody CreatePlayerDto dto) {
         try {
             Player player = playerService.updatePlayer(id, dto);
@@ -143,6 +162,7 @@ public class PlayerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_delete')")
     public ResponseEntity<Map<String, Object>> deletePlayer(@PathVariable Long id) {
         try {
             playerService.deletePlayer(id);

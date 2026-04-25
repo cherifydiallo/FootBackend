@@ -785,3 +785,54 @@ Caused by: org.postgresql.util.PSQLException: FATAL: la base de donn?es ? efasdb
 2026-04-25T22:02:43.383+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-04-25T22:02:43.385+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 2026-04-25T22:02:44.023+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-1] c.k.f.c.AuthenticationController         : User registered successfully: Cherify
+2026-04-25T22:21:49.242+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.service.AuthenticationService      : Authentication attempt for user: Cherify
+2026-04-25T22:21:49.702+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.service.AuthenticationService      : User authenticated successfully: Cherify
+2026-04-25T22:21:49.791+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.c.AuthenticationController         : User logged in successfully: Cherify
+2026-04-25T22:21:50.056+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-6] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:21:59.717+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:22:11.585+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-10] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:22:11.601+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-10] c.k.footbackend.service.GroupService     : Group created: Entraineur
+2026-04-25T22:22:11.602+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-10] c.k.f.controller.GroupController         : Group created: Entraineur
+2026-04-25T22:22:11.623+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-2] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:25:57.711+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:25:57.713+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.service.AuthenticationService      : Fetching all users
+2026-04-25T22:26:13.653+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-5] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:26:13.655+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-5] c.k.f.service.AuthenticationService      : Fetching all users
+2026-04-25T22:26:22.948+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-6] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:26:35.480+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-7] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:26:39.729+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:26:41.118+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-10] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:26:43.298+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-2] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:29:07.418+01:00  WARN 10820 --- [ECMBackend] [http-nio-8081-exec-4] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2026-04-25T22:29:07.418+01:00 ERROR 10820 --- [ECMBackend] [http-nio-8081-exec-4] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERREUR: la valeur d'une clé dupliquée rompt la contrainte unique « users_email_key »
+  Détail : La clé « (email)=(john@example.com) » existe déjà.
+2026-04-25T22:29:07.547+01:00  WARN 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.c.AuthenticationController         : Signup failed: could not execute statement [ERREUR: la valeur d'une clé dupliquée rompt la contrainte unique « users_email_key »
+  Détail : La clé « (email)=(john@example.com) » existe déjà.] [insert into users (email,full_name,identifiant,joined_date,last_active,password,role,status) values (?,?,?,?,?,?,?,?)]; SQL [insert into users (email,full_name,identifiant,joined_date,last_active,password,role,status) values (?,?,?,?,?,?,?,?)]; constraint [null]
+2026-04-25T22:29:17.413+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-5] c.k.f.c.AuthenticationController         : User registered successfully: Cherify2
+2026-04-25T22:31:56.328+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.service.AuthenticationService      : Authentication attempt for user: Cherify2
+2026-04-25T22:31:56.452+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.service.AuthenticationService      : User authenticated successfully: Cherify2
+2026-04-25T22:31:56.460+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.c.AuthenticationController         : User logged in successfully: Cherify2
+2026-04-25T22:31:56.495+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-9] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify2
+2026-04-25T22:32:04.292+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-10] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify2
+2026-04-25T22:32:14.655+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-2] c.k.f.service.AuthenticationService      : Authentication attempt for user: Cherify
+2026-04-25T22:32:14.777+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-2] c.k.f.service.AuthenticationService      : User authenticated successfully: Cherify
+2026-04-25T22:32:14.779+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-2] c.k.f.c.AuthenticationController         : User logged in successfully: Cherify
+2026-04-25T22:32:14.805+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-1] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:17.718+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-3] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:17.770+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-6] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:19.337+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-5] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:20.951+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-7] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:22.504+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:22.506+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-8] c.k.f.service.AuthenticationService      : Fetching all users
+2026-04-25T22:32:29.251+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-9] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:30.754+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-10] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:33.156+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-2] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:33.183+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-1] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:35.899+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-3] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:32:35.923+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-4] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:33:36.239+01:00  INFO 10820 --- [ECMBackend] [http-nio-8081-exec-5] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-25T22:58:56.460+01:00  INFO 10820 --- [ECMBackend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-25T22:58:56.846+01:00  INFO 10820 --- [ECMBackend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-04-25T22:58:57.033+01:00  INFO 10820 --- [ECMBackend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-25T22:58:57.211+01:00  INFO 10820 --- [ECMBackend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-25T22:58:57.274+01:00  INFO 10820 --- [ECMBackend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

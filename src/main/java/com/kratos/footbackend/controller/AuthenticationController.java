@@ -1,5 +1,12 @@
 package com.kratos.footbackend.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,14 +27,6 @@ import com.kratos.footbackend.model.User;
 import com.kratos.footbackend.service.AuthenticationService;
 import com.kratos.footbackend.service.JwtService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 @RequestMapping("/auth")
 @RestController
@@ -46,6 +45,7 @@ public class AuthenticationController {
     
     
     @PostMapping("/signup")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'user_write')")
     public ResponseEntity<Map<String, Object>> register(@RequestBody RegisterUserDto registerUserDto) {
         try {
             User registeredUser = authenticationService.signup(registerUserDto);
@@ -159,6 +159,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/user/search")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'user_read')")
     public ResponseEntity<Map<String, Object>> searchByUsername(@RequestParam String username) {
         if (username == null || username.trim().isEmpty()) {
             Map<String, Object> response = new HashMap<>();
@@ -191,6 +192,7 @@ public class AuthenticationController {
     }
 
     @PutMapping("/users/{id}")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'user_edit')")
     public ResponseEntity<Map<String, Object>> updateUser(@PathVariable Long id, @RequestBody RegisterUserDto registerUserDto) {
         try {
             User updatedUser = authenticationService.updateUser(id, registerUserDto);
@@ -225,7 +227,7 @@ public class AuthenticationController {
     }
 
     @DeleteMapping("/users/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'user_delete')")
     public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable Long id) {
         try {
             authenticationService.deleteUser(id);
@@ -251,6 +253,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'user_read')")
     public ResponseEntity<Map<String, Object>> getAllUsers() {
         try {
             List<User> users = authenticationService.getAllUsers();
