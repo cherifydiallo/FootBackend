@@ -1,26 +1,36 @@
 package com.kratos.footbackend.service;
 
-import com.kratos.footbackend.dto.CreatePlayerDto;
-import com.kratos.footbackend.model.Player;
-import com.kratos.footbackend.repository.PlayerRepository;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import com.kratos.footbackend.dto.CreatePlayerDto;
+import com.kratos.footbackend.model.Academy;
+import com.kratos.footbackend.model.AcademyCategory;
+import com.kratos.footbackend.model.Player;
+import com.kratos.footbackend.repository.AcademyCategoryRepository;
+import com.kratos.footbackend.repository.AcademyRepository;
+import com.kratos.footbackend.repository.PlayerRepository;
 
 @Service
 public class PlayerService {
     private static final Logger logger = LoggerFactory.getLogger(PlayerService.class);
 
     private final PlayerRepository playerRepository;
+    private final AcademyRepository academyRepository;
+    private final AcademyCategoryRepository categoryRepository;
 
     @Autowired
-    public PlayerService(PlayerRepository playerRepository) {
+    public PlayerService(PlayerRepository playerRepository, AcademyRepository academyRepository,
+                         AcademyCategoryRepository categoryRepository) {
         this.playerRepository = playerRepository;
+        this.academyRepository = academyRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public Player createPlayer(CreatePlayerDto dto) {
@@ -31,8 +41,16 @@ public class PlayerService {
         Player player = new Player();
         player.setFullName(dto.getFullName());
         player.setBirthDate(dto.getBirthDate());
-        player.setAcademy(dto.getAcademy());
-        player.setCategory(dto.getCategory());
+        if (dto.getAcademyId() != null) {
+            Academy academy = academyRepository.findById(dto.getAcademyId())
+                    .orElseThrow(() -> new RuntimeException("Académie non trouvée"));
+            player.setAcademy(academy);
+        }
+        if (dto.getCategoryId() != null) {
+            AcademyCategory category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
+            player.setCategory(category);
+        }
         player.setRegisterNumber(dto.getRegisterNumber());
         player.setHeightCm(dto.getHeightCm());
         player.setWeightKg(dto.getWeightKg());
@@ -66,8 +84,20 @@ public class PlayerService {
 
         player.setFullName(dto.getFullName());
         player.setBirthDate(dto.getBirthDate());
-        player.setAcademy(dto.getAcademy());
-        player.setCategory(dto.getCategory());
+        if (dto.getAcademyId() != null) {
+            Academy academy = academyRepository.findById(dto.getAcademyId())
+                    .orElseThrow(() -> new RuntimeException("Académie non trouvée"));
+            player.setAcademy(academy);
+        } else {
+            player.setAcademy(null);
+        }
+        if (dto.getCategoryId() != null) {
+            AcademyCategory category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
+            player.setCategory(category);
+        } else {
+            player.setCategory(null);
+        }
         player.setRegisterNumber(dto.getRegisterNumber());
         player.setHeightCm(dto.getHeightCm());
         player.setWeightKg(dto.getWeightKg());

@@ -190,8 +190,17 @@ public class PlayerController {
         info.put("id", p.getId());
         info.put("fullName", p.getFullName());
         info.put("birthDate", p.getBirthDate());
-        info.put("academy", p.getAcademy());
-        info.put("category", p.getCategory());
+        if (p.getAcademy() != null) {
+            Map<String, Object> academyInfo = new LinkedHashMap<>();
+            academyInfo.put("id", p.getAcademy().getId());
+            academyInfo.put("academyName", p.getAcademy().getAcademyName());
+            info.put("academy", academyInfo);
+        } else {
+            info.put("academy", null);
+        }
+        info.put("category", p.getCategory() != null
+                ? Map.of("id", p.getCategory().getId(), "name", p.getCategory().getName())
+                : null);
         info.put("registerNumber", p.getRegisterNumber());
         info.put("heightCm", p.getHeightCm());
         info.put("weightKg", p.getWeightKg());

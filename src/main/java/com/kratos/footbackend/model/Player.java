@@ -1,8 +1,17 @@
 package com.kratos.footbackend.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "players")
@@ -18,11 +27,13 @@ public class Player {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column(name = "academy")
-    private String academy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "academy_id")
+    private Academy academy;
 
-    @Column(name = "category", length = 10)
-    private String category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private AcademyCategory category;
 
     @Column(name = "register_number", unique = true)
     private String registerNumber;
@@ -54,11 +65,11 @@ public class Player {
     public LocalDate getBirthDate() { return birthDate; }
     public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
-    public String getAcademy() { return academy; }
-    public void setAcademy(String academy) { this.academy = academy; }
+    public Academy getAcademy() { return academy; }
+    public void setAcademy(Academy academy) { this.academy = academy; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public AcademyCategory getCategory() { return category; }
+    public void setCategory(AcademyCategory category) { this.category = category; }
 
     public String getRegisterNumber() { return registerNumber; }
     public void setRegisterNumber(String registerNumber) { this.registerNumber = registerNumber; }

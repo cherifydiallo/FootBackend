@@ -54,4 +54,13 @@ public interface RestPermissionConfigRepository extends JpaRepository<RestPermis
     List<RestPermissionConfig> findByGroupIdOrderByPermissionKeyAsc(Long groupId);
 
     long deleteByPermissionKeyAndGroupId(String permissionKey, Long groupId);
+
+    @Query("""
+        SELECT DISTINCT rpc.permissionKey
+        FROM RestPermissionConfig rpc
+        WHERE rpc.enabled = true
+          AND rpc.group.id IN :groupIds
+        ORDER BY rpc.permissionKey ASC
+    """)
+    List<String> findEnabledPermissionKeysByGroupIds(Collection<Long> groupIds);
 }

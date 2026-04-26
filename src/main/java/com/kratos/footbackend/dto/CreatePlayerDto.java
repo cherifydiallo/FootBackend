@@ -6,8 +6,8 @@ public class CreatePlayerDto {
 
     private String fullName;
     private LocalDate birthDate;
-    private String academy;
-    private String category;
+    private Long academyId;
+    private Long categoryId;
     private String registerNumber;
     private Integer heightCm;
     private Integer weightKg;
@@ -21,11 +21,11 @@ public class CreatePlayerDto {
     public LocalDate getBirthDate() { return birthDate; }
     public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
-    public String getAcademy() { return academy; }
-    public void setAcademy(String academy) { this.academy = academy; }
+    public Long getAcademyId() { return academyId; }
+    public void setAcademyId(Long academyId) { this.academyId = academyId; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Long getCategoryId() { return categoryId; }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
 
     public String getRegisterNumber() { return registerNumber; }
     public void setRegisterNumber(String registerNumber) { this.registerNumber = registerNumber; }

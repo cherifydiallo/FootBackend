@@ -1,4 +1,4 @@
-{
+﻿{
   "info": {
     "name": "FootBackend API",
     "_postman_id": "footbackend-collection-v2",
@@ -11,6 +11,8 @@
     { "key": "userId", "value": "1" },
     { "key": "groupId", "value": "1" },
     { "key": "playerId", "value": "1" },
+    { "key": "academyId", "value": "1" },
+    { "key": "categoryId", "value": "1" },
     { "key": "permissionKey", "value": "user_read" }
   ],
   "item": [
@@ -385,10 +387,189 @@
       ]
     },
     {
+      "name": "Academies",
+      "item": [
+        {
+          "name": "Create Academy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.academy && json.academy.id) {",
+                  "  pm.collectionVariables.set('academyId', json.academy.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"academyName\": \"Academy Tunis\",\n  \"localite\": \"Tunis\",\n  \"numeroTelephone\": \"+21612345678\",\n  \"description\": \"AcadÃ©mie de football de Tunis\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Academies",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get Academy By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/{{academyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "{{academyId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Academy",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/{{academyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "{{academyId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"academyName\": \"Academy Tunis Updated\",\n  \"localite\": \"Tunis Centre\",\n  \"numeroTelephone\": \"+21698765432\",\n  \"description\": \"Description mise Ã  jour\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Academy",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/{{academyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "{{academyId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Academy Categories",
+      "item": [
+        {
+          "name": "Add Category To Academy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.category && json.category.id) {",
+                  "  pm.collectionVariables.set('categoryId', json.category.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/{{academyId}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "{{academyId}}", "categories"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"U17\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Categories By Academy",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/{{academyId}}/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "{{academyId}}", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/academies/categories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["academies", "categories", "{{categoryId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
       "name": "Players",
       "item": [
         {
           "name": "Create Player",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.player && json.player.id) {",
+                  "  pm.collectionVariables.set('playerId', json.player.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -402,7 +583,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"fullName\": \"Ali Ben Salah\",\n  \"birthDate\": \"2005-03-15\",\n  \"academy\": \"Academy Tunis\",\n  \"category\": \"U20\",\n  \"registerNumber\": \"REG-2024-001\",\n  \"heightCm\": 178,\n  \"weightKg\": 72,\n  \"fatherName\": \"Mohamed Ben Salah\",\n  \"motherName\": \"Fatma Trabelsi\",\n  \"photo\": \"ali_ben_salah.jpg\"\n}"
+              "raw": "{\n  \"fullName\": \"Ali Ben Salah\",\n  \"birthDate\": \"2005-03-15\",\n  \"academyId\": {{academyId}},\n  \"categoryId\": {{categoryId}},\n  \"registerNumber\": \"REG-2024-001\",\n  \"heightCm\": 178,\n  \"weightKg\": 72,\n  \"fatherName\": \"Mohamed Ben Salah\",\n  \"motherName\": \"Fatma Trabelsi\",\n  \"photo\": null\n}"
             }
           }
         },
@@ -466,7 +647,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"fullName\": \"Ali Ben Salah\",\n  \"birthDate\": \"2005-03-15\",\n  \"academy\": \"Academy Tunis\",\n  \"category\": \"U21\",\n  \"registerNumber\": \"REG-2024-001\",\n  \"heightCm\": 179,\n  \"weightKg\": 74,\n  \"fatherName\": \"Mohamed Ben Salah\",\n  \"motherName\": \"Fatma Trabelsi\",\n  \"photo\": \"ali_ben_salah.jpg\"\n}"
+              "raw": "{\n  \"fullName\": \"Ali Ben Salah\",\n  \"birthDate\": \"2005-03-15\",\n  \"academyId\": {{academyId}},\n  \"categoryId\": {{categoryId}},\n  \"registerNumber\": \"REG-2024-001\",\n  \"heightCm\": 179,\n  \"weightKg\": 74,\n  \"fatherName\": \"Mohamed Ben Salah\",\n  \"motherName\": \"Fatma Trabelsi\",\n  \"photo\": null\n}"
             }
           }
         },
