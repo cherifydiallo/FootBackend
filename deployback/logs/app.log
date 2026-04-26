@@ -942,3 +942,4 @@ Caused by: java.lang.ClassNotFoundException: org.apache.catalina.Lifecycle$Singl
 2026-04-26T18:33:39.229+01:00  WARN 17124 --- [ECMBackend] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m51s67ms96µs600ns).
 2026-04-26T19:02:42.061+01:00  WARN 17124 --- [ECMBackend] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m32s675ms332µs100ns).
 2026-04-26T19:02:46.589+01:00  INFO 17124 --- [ECMBackend] [http-nio-8081-exec-7] c.k.f.security.JwtAuthenticationFilter   : User authenticated with valid token: Cherify
+2026-04-26T19:18:12.373+01:00  WARN 17124 --- [ECMBackend] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m59s825ms127µs300ns).
