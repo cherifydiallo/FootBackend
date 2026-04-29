@@ -136,6 +136,59 @@ public class PlayerController {
                 });
     }
 
+    @GetMapping("/search-advanced")
+    @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_read')")
+    public ResponseEntity<Map<String, Object>> searchAdvanced(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String birthDate,
+            @RequestParam(required = false) Integer heightCm,
+            @RequestParam(required = false) Integer weightKg,
+            @RequestParam(required = false) String createdAt
+    ) {
+        try {
+            if (name != null && name.trim().length() > 0 && name.trim().length() < 3) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "Le nom doit contenir au moins 3 caractères pour la recherche");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            java.time.LocalDate birthDateParsed = null;
+            java.time.LocalDate createdAtParsed = null;
+            try {
+                if (birthDate != null && !birthDate.trim().isEmpty()) {
+                    birthDateParsed = java.time.LocalDate.parse(birthDate.trim());
+                }
+                if (createdAt != null && !createdAt.trim().isEmpty()) {
+                    createdAtParsed = java.time.LocalDate.parse(createdAt.trim());
+                }
+            } catch (Exception e) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "Format de date invalide. Utilisez ISO yyyy-MM-dd");
+                return ResponseEntity.badRequest().body(response);
+            }
+
+            List<Player> players = playerService.searchPlayers(name, categoryId, birthDateParsed, heightCm, weightKg, createdAtParsed);
+            List<Map<String, Object>> list = new ArrayList<>();
+            for (Player p : players) {
+                list.add(buildPlayerInfo(p));
+            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("count", list.size());
+            response.put("players", list);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Advanced search error: {}", e.getMessage(), e);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Erreur serveur");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("@restPermissionEvaluator.canExecute(authentication, 'player_edit')")
     public ResponseEntity<Map<String, Object>> updatePlayer(@PathVariable Long id, @RequestBody CreatePlayerDto dto) {

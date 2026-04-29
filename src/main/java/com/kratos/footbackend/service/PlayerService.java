@@ -1,12 +1,15 @@
 package com.kratos.footbackend.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.kratos.footbackend.dto.CreatePlayerDto;
@@ -112,6 +115,40 @@ public class PlayerService {
 
     public Optional<Player> getPlayerByRegisterNumber(String registerNumber) {
         return playerRepository.findByRegisterNumber(registerNumber);
+    }
+
+    public List<Player> searchPlayers(String name, Long categoryId, LocalDate birthDate,
+                                      Integer heightCm, Integer weightKg, LocalDate createdAtDate) {
+        Specification<Player> spec = (root, query, cb) -> cb.conjunction();
+
+        if (name != null && !name.trim().isEmpty()) {
+            String like = "%" + name.trim().toLowerCase() + "%";
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("fullName")), like));
+        }
+
+        if (categoryId != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("category").get("id"), categoryId));
+        }
+
+        if (birthDate != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("birthDate"), birthDate));
+        }
+
+        if (heightCm != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("heightCm"), heightCm));
+        }
+
+        if (weightKg != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("weightKg"), weightKg));
+        }
+
+        if (createdAtDate != null) {
+            LocalDateTime start = createdAtDate.atStartOfDay();
+            LocalDateTime end = createdAtDate.atTime(LocalTime.MAX);
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), start, end));
+        }
+
+        return playerRepository.findAll(spec);
     }
 
     public void deletePlayer(Long id) {
