@@ -141,6 +141,7 @@ public class PlayerController {
     public ResponseEntity<Map<String, Object>> searchAdvanced(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long academyId,
             @RequestParam(required = false) String birthDate,
             @RequestParam(required = false) Integer heightCm,
             @RequestParam(required = false) Integer weightKg,
@@ -170,7 +171,7 @@ public class PlayerController {
                 return ResponseEntity.badRequest().body(response);
             }
 
-            List<Player> players = playerService.searchPlayers(name, categoryId, birthDateParsed, heightCm, weightKg, createdAtParsed);
+            List<Player> players = playerService.searchPlayers(name, categoryId, academyId, birthDateParsed, heightCm, weightKg, createdAtParsed);
             List<Map<String, Object>> list = new ArrayList<>();
             for (Player p : players) {
                 list.add(buildPlayerInfo(p));

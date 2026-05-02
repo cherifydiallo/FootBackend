@@ -66,6 +66,12 @@ public class RestPermissionEvaluatorService {
         }
 
         Set<Long> userGroupIds = extractGroupIds(user);
+
+        // Allow members of admins group (group 1) to manage any group
+        if (userGroupIds.contains(1L)) {
+            return true;
+        }
+
         if (!userGroupIds.contains(groupId)) {
             return false;
         }

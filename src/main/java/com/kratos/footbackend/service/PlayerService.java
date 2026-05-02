@@ -117,7 +117,7 @@ public class PlayerService {
         return playerRepository.findByRegisterNumber(registerNumber);
     }
 
-    public List<Player> searchPlayers(String name, Long categoryId, LocalDate birthDate,
+    public List<Player> searchPlayers(String name, Long categoryId, Long academyId, LocalDate birthDate,
                                       Integer heightCm, Integer weightKg, LocalDate createdAtDate) {
         Specification<Player> spec = (root, query, cb) -> cb.conjunction();
 
@@ -128,6 +128,10 @@ public class PlayerService {
 
         if (categoryId != null) {
             spec = spec.and((root, query, cb) -> cb.equal(root.get("category").get("id"), categoryId));
+        }
+
+        if (academyId != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("academy").get("id"), academyId));
         }
 
         if (birthDate != null) {
